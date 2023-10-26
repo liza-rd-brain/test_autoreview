@@ -5,8 +5,8 @@ addReviewers: true
 
 # A list of reviewers to be added to pull requests (GitHub user name)
 reviewers: 
-  - @BakaBakaGaijin
-  - @liza-rd-brain
+  - BakaBakaGaijin
+  - liza-rd-brain
 
 
 # A number of reviewers added to the pull request
