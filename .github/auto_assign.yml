@@ -20,9 +20,11 @@ jobs:
         run: |
           reviewers=$(awk '{print $2}' CODEOWNERS | tr '\n' ' ' | sed 's/ /","/g')
           reviewers='["'$reviewers'"]'
-          curl \
+          echo "Reviewers: $reviewers"
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
             -X POST \
             -H "Authorization: token $GITHUB_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/requested_reviewers \
-            -d '{"reviewers": '$reviewers'}'
+            -d '{"reviewers": '$reviewers'}')
+          echo "Response: $response"
