@@ -1,14 +1,23 @@
-# Set to true to add reviewers to pull requests
-addReviewers: true
+name: Request review on PRs
 
+on:
+  pull_request:
+    types:
+      - opened
 
+jobs:
+  request:
+    name: Request reviews on opened PRs
+    runs-on: ubuntu-latest
 
-# A list of reviewers to be added to pull requests (GitHub user name)
-reviewers: 
-  - BakaBakaGaijin
-  - surf-kirill-berenfus
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-
-# A number of reviewers added to the pull request
-# Set 0 to add all the reviewers (default: 0)
-numberOfReviewers: 0
+      - name: Create PR review request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          url: ${{ github.event.pull_request.html_url }}
+        run: |
+          reviewers=$(cat CODEOWNERS | tr '\n' ',')
+          gh pr edit "$url" --add-reviewer $reviewers
