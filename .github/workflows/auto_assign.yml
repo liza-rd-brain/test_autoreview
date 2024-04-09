@@ -18,7 +18,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          reviewers=$(awk '{print $2}' CODEOWNERS | tr '\n' ' ' | sed 's/ /","/g')
+          reviewers=$(awk '{print $2}' .github/CODEOWNERS | tr '\n' ' ' | sed 's/ /","/g')
           reviewers='["'$reviewers'"]'
           echo "Reviewers: $reviewers"
           response=$(curl -s -o /dev/null -w "%{http_code}" \
